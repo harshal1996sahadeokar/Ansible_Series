@@ -1,37 +1,21 @@
 ---
-- name: Copying files to remote
+- name: Copy files to target hosts
   hosts: all
+  become: yes  # Ensures tasks run with elevated privileges if required
 
   tasks:
-  - name: Copy files
-    copy:
-      src: /root/myfile.txt
-      dest: /tmp/
-      owner: paul
-      group: paul
-      mode: ugo=rw
-      backup: true
+    - name: Copy a single file to the target host
+      ansible.builtin.copy:
+        src: /path/to/local/file.txt
+        dest: /path/to/remote/file.txt
+        owner: root
+        group: root
+        mode: '0644'
 
-
-#---
-#- name: Copy files to target hosts
-#  hosts: all
-#  become: yes  # Ensures tasks run with elevated privileges if required
-#
-#  tasks:
-#    - name: Copy a single file to the target host
-#      ansible.builtin.copy:
-#        src: /path/to/local/file.txt
-#        dest: /path/to/remote/file.txt
-#        owner: root
-#        group: root
-#        mode: '0644'
-#
-#    - name: Copy a directory and its contents to the target host
-#      ansible.builtin.copy:
-#        src: /path/to/local/directory/
-#        dest: /path/to/remote/directory/
-#        owner: root
-#        group: root
-#        mode: '0755'
-#
+    - name: Copy a directory and its contents to the target host
+      ansible.builtin.copy:
+        src: /path/to/local/directory/
+        dest: /path/to/remote/directory/
+        owner: root
+        group: root
+        mode: '0755'
