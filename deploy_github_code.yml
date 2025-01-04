@@ -1,0 +1,30 @@
+---
+- name: Deploy code from GitHub repository
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Ensure Git is installed
+      ansible.builtin.yum:
+        name: git
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Ensure Git is installed
+      ansible.builtin.apt:
+        name: git
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Clone or update the repository
+      ansible.builtin.git:
+        repo: https://github.com/your-username/your-repo.git
+        dest: /var/www/html/your-repo
+        version: main
+        force: yes
+
+    - name: Set permissions on the code directory
+      ansible.builtin.file:
+        path: /var/www/html/your-repo
+        owner: apache
+        group: apache
+        recurse: yes
