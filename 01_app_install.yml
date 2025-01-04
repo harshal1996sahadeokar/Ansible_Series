@@ -1,49 +1,26 @@
----
-- name: Install and Start the service
+--
+- name: Install an application on target hosts
   hosts: all
-  vars:
-    - app: httpd
+  become: yes  # Ensures the tasks run as root (or with sudo privileges)
 
   tasks:
-  - name: Installing nginx
-    yum:
-      name: "{{ app }}"
-      state: present
-    tags: i-nginx
+    - name: Ensure the package manager cache is updated
+      ansible.builtin.yum:
+        update_cache: yes
+      when: ansible_os_family == "RedHat"
 
-  - name: Starting the nginx service
-    service:
-      name: "{{ app }}"
-      state: started
-      enabled: true
-    tags: ss-nginx
+    - name: Ensure the package manager cache is updated (Debian-based)
+      ansible.builtin.apt:
+        update_cache: yes
+      when: ansible_os_family == "Debian"
 
+    - name: Install the Apache HTTP Server
+      ansible.builtin.package:
+        name: "{{ app_name }}"
+        state: present
 
-# ChatGPT Contents 
-
-#---
-#- name: Install an application on target hosts
-#  hosts: all
-#  become: yes  # Ensures the tasks run as root (or with sudo privileges)
-#
-#  tasks:
-#    - name: Ensure the package manager cache is updated
-#      ansible.builtin.yum:
-#        update_cache: yes
-#      when: ansible_os_family == "RedHat"
-#
-#    - name: Ensure the package manager cache is updated (Debian-based)
-#      ansible.builtin.apt:
-#        update_cache: yes
-#      when: ansible_os_family == "Debian"
-#
-#    - name: Install the Apache HTTP Server
-#      ansible.builtin.package:
-#        name: "{{ app_name }}"
-#        state: present
-#
-#    - name: Ensure the application service is started and enabled
-#      ansible.builtin.service:
-#        name: "{{ app_service }}"
-#        state: started
-#        enabled: yes
+    - name: Ensure the application service is started and enabled
+      ansible.builtin.service:
+        name: "{{ app_service }}"
+        state: started
+        enabled: yes
