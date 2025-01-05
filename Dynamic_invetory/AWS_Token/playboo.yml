@@ -1,0 +1,15 @@
+
+plugin: amazon.aws.aws_ec2
+aws_profile: default  # Use the profile configured in AWS CLI
+regions:
+  - us-east-1          # Specify the AWS regions to scan for EC2 instances
+  - us-west-2
+filters:
+  instance-state-name: running  # Only include running instances
+keyed_groups:
+  - key: tags.Name             # Group instances by their Name tag
+    prefix: tag
+hostnames:
+  - private-ip-address          # Use the private IP as the hostname
+compose:
+  ansible_host: public-ip-address  # Use the public IP for SSH
