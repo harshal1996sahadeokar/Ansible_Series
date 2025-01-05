@@ -1,0 +1,99 @@
+#[automation_controller]
+#15.206.153.241 ansible_user=root ansible_ssh_private_key_file=/home/ec2-user/keys/ANSIBLE.pem
+
+#[database]
+#15.206.153.242 ansible_user=root ansible_ssh_private_key_file=/home/ec2-user/keys/ANSIBLE.pem
+
+#[all:vars]
+#admin_password='YourSecurePassword'
+#pg_password='YourSecureDatabasePassword'
+
+# This section is for your AAP Gateway host(s)
+# -----------------------------------------------------
+[automationgateway]
+automationgateway.example.com ansible_connection=local
+#15.206.153.243
+#15.206.153.244
+
+# This section is for your AAP Controller host(s)
+# -----------------------------------------------------
+[automationcontroller]
+aap.example.com ansible_connection=local
+#15.206.153.245
+
+[automationcontroller:vars]
+peers=execution_nodes
+
+# This section is for your AAP Execution host(s)
+# -----------------------------------------------------
+[execution_nodes]
+#15.206.153.246 node_type='hop'
+#15.206.153.247
+#15.206.153.248
+#15.206.153.248
+
+# This section is for your AAP Automation Hub host(s)
+# -----------------------------------------------------
+#[automationhub]
+automationhub.example.com ansible_connection=local
+#15.206.153.249
+#15.206.153.250
+
+# This section is for your AAP EDA Controller host(s)
+# -----------------------------------------------------
+#[automationedacontroller]
+#15.206.153.251
+#15.206.153.252
+
+[all:vars]
+
+# Common variables
+# -----------------------------------------------------
+# AAP Gateway
+#automationgateway_admin_password='sonal123'
+#automationgateway_pg_host=15.206.153.253
+#automationgateway_pg_database='automationgateway_db'
+#automationgateway_pg_username='gateway_user'
+#automationgateway_pg_password='YourSecurePassword'
+
+# AAP Controller
+admin_password='sol123'
+pg_host=''
+pg_database='awx'
+pg_username='awx'
+pg_password='sol123'
+
+pg_password='soal123'
+
+# AAP Automation Hub
+automationhub_admin_password='soal123'
+automationhub_pg_host=''
+automationhub_pg_port=5432
+automationhub_pg_database='automationhub'
+automationhub_pg_username='automationhub'
+automationhub_pg_password='sol123'
+automationhub_pg_sslmode='prefer'
+
+# AAP EDA Controller
+automationedacontroller_admin_password='son123'
+automationedacontroller_pg_host=''
+automationedacontroller_pg_port=5432
+automationedacontroller_pg_database='automationedacontroller'
+automationedacontroller_pg_username='automationedacontroller'
+automationedacontroller_pg_password=''
+
+
+[redis]
+redis_node1 ansible_host=''
+redis_node2 ansible_host=''
+redis_node3 ansible_host=''
+redis_node4 ansible_host=''
+redis_node5 ansible_host=''
+redis_node6 ansible_host=''
+~
+~
+~
+~
+~
+~
+
